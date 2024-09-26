@@ -3,10 +3,11 @@ import axios from 'axios';
 
 function App() {
 	const [formData, setFormData] = useState({
-		// name: '',
+		name: '',
 		username: '',
 		password: ''
 	});
+
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -15,6 +16,8 @@ function App() {
 			[name]: value,
 		}));
 	};
+
+
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
@@ -47,7 +50,7 @@ function App() {
 		<div className="App">
 			<h1>Register</h1>
 			<form onSubmit={handleRegister}>
-				{/* <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required /> */}
+				<input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
 				{/* <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required /> */}
 				<input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
 				<input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
