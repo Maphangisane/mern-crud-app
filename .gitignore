@@ -28,3 +28,7 @@ dist-ssr
 config\db-deprecated.js
 terminal.txt
 config/db-deprecated.js
+.github/workflows/deploy.yml
+Dockerfile
+deploy.sh
+client/src/practice code.js
