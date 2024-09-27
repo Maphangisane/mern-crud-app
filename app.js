@@ -2,9 +2,10 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const errorMiddleware = require('./middlewares/errorMiddleware');
-const authRoutes = require('./routes/authRoutes');
-const itemRoutes = require('./routes/itemRoutes');
 const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
+const noteRoutes = require('./routes/noteRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 connectDB();
@@ -14,9 +15,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/items', itemRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/users', userRoutes);
 
-// Error handling middleware (always last)
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
