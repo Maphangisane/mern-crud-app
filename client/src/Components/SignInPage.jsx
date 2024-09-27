@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 
 function SignInPage() {
@@ -8,6 +9,7 @@ function SignInPage() {
 		password: ''
 	});
 	const [errors, setErrors] = useState({});
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -17,7 +19,7 @@ function SignInPage() {
 		}));
 	};
 
-	// form data is validation
+	// form data validation
 	const validate = () => {
 		let tempErrors = {};
 		tempErrors.username = formData.username ? '' : 'Username is required';
@@ -29,15 +31,51 @@ function SignInPage() {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+
+		if (!validate()) {
+			return;
+		}
+
+		const requestBody = {
+			username: formData.username,
+			password: formData.password
+		};
+
 		try {
-			const res = await axios.post('http://localhost:5000/api/auth/login', {
-				username: formData.username,
-				password: formData.password
-				// }, { withCredentials: true });
+			const res = await axios.post('http://localhost:5000/api/auth/login', requestBody, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			})
-			console.log(res.data);
+			// console.log(res.data);
+			const { access_token } = res.data;
+			console.log(access_token);
+
+			if (access_token) {
+				// login(access_token); // Save access token
+				axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+
+				// Log the Authorization header to the console
+				console.log('login successfully: Authorization set');
+				// console.log(axios.defaults.headers.common['Authorization']);
+
+				// Save token after login
+				localStorage.setItem("authToken", access_token);
+				// const token = localStorage.getItem("authToken");
+				// console.log('authToken: ' + token);
+
+				navigate('/'); // Redirect to home page
+				// window.location.href ="/login"
+			}
+			else {
+				setErrors({ general: 'Invalid username or password' });
+			}
 		} catch (err) {
-			console.error(err.response.data);
+			if (err.response && err.response.data) {
+				setErrors({ general: err.response.data.message || 'An error occurred during login.' });
+			} else {
+				setErrors({ general: 'An unexpected error occurred. Please try again to login' });
+			}
 		}
 	};
 
@@ -58,7 +96,7 @@ function SignInPage() {
 						onChange={handleChange}
 						error={!!errors.username}
 						helperText={errors.username}
-						required
+					// required
 					/>
 					<TextField
 						fullWidth
@@ -70,8 +108,15 @@ function SignInPage() {
 						onChange={handleChange}
 						error={!!errors.password}
 						helperText={errors.password}
-						required
+					// required
 					/>
+
+					{errors.general && (
+						<Typography color="error">
+							{errors.general}
+						</Typography>
+					)}
+
 					<Button variant="contained" color="primary" type="submit">
 						Sign In
 					</Button>
