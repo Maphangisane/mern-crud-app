@@ -6,19 +6,23 @@ const { JWT_SECRET } = require('../config/constants');
 
 // Register new user
 exports.register = async (req, res) => {
-	const { username, password } = req.body;
+	try {
+		const { name, username, password } = req.body;
 
-	// Validate request body
-	if (!username || !password) {
-		return res.status(400).json({ error: 'Username and password are required' });
+		// Validate request body
+		if (!name || !username || !password) {
+			return res.status(400).json({ error: 'name, username and password are required' });
+		}
+
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
+		const user = new User({ name, username, password: hashedPassword });
+
+		await user.save();
+		res.status(201).send('User registered');
+	} catch (error) {
+		res.status(500).json({ error: 'Server error: User failed to register' });
 	}
-
-	const salt = await bcrypt.genSalt(10);
-	const hashedPassword = await bcrypt.hash(password, salt);
-	const user = new User({ username, password: hashedPassword });
-
-	await user.save();
-	res.status(201).send('User registered');
 };
 
 // Login a user
