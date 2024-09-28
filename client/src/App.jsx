@@ -1,20 +1,16 @@
 // import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from "./components/Header";
+import Header from "./Components/Header";
 import SignInPage from './Components/SignInPage';
 import SignUpPage from './Components/SignUpPage';
 import HomePage from './Components/HomePage';
-import ResponsiveAppBar from './Components/ResponsiveAppBar';
-import ResponsiveAppBarAuth from './Components/ResponsiveAppBarAuth';
 
 function App() {
 
 	return (
 		<>
 			<BrowserRouter>
-				{/* <Header /> */}
-				{/* <ResponsiveAppBar /> */}
-				<ResponsiveAppBarAuth />
+				<Header />
 
 				<Routes>
 					<Route path="/" element={<HomePage />} />

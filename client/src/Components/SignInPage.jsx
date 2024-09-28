@@ -19,7 +19,6 @@ function SignInPage() {
 		}));
 	};
 
-	// form data validation
 	const validate = () => {
 		let tempErrors = {};
 		tempErrors.username = formData.username ? '' : 'Username is required';
@@ -49,23 +48,16 @@ function SignInPage() {
 			})
 			// console.log(res.data);
 			const { access_token } = res.data;
-			console.log(access_token);
+			// console.log(access_token);
 
 			if (access_token) {
-				// login(access_token); // Save access token
 				axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-
-				// Log the Authorization header to the console
 				console.log('login successfully: Authorization set');
-				// console.log(axios.defaults.headers.common['Authorization']);
 
-				// Save token after login
 				localStorage.setItem("authToken", access_token);
-				// const token = localStorage.getItem("authToken");
-				// console.log('authToken: ' + token);
 
-				navigate('/'); // Redirect to home page
-				// window.location.href ="/login"
+				// navigate('/'); // Redirect to home page
+				window.location.href = "/"
 			}
 			else {
 				setErrors({ general: 'Invalid username or password' });

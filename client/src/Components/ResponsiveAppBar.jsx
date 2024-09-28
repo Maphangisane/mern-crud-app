@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -34,6 +35,11 @@ function ResponsiveAppBar() {
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+
+	const handleLogout = () => {
+		localStorage.removeItem('authToken');
+		window.location.href = '/signin';
 	};
 
 	return (
@@ -117,6 +123,8 @@ function ResponsiveAppBar() {
 							<Button
 								key={page}
 								onClick={handleCloseNavMenu}
+								component="a"
+								href={`/${page.toLowerCase()}`}
 								sx={{ my: 2, color: 'white', display: 'block' }}
 							>
 								{page}
@@ -146,7 +154,10 @@ function ResponsiveAppBar() {
 							onClose={handleCloseUserMenu}
 						>
 							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
+								<MenuItem
+									key={setting}
+									onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}
+								>
 									<Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
 								</MenuItem>
 							))}
