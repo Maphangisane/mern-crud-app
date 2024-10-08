@@ -5,13 +5,31 @@ on: push
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Node server
+        run: |
+          npm run server &
+          sleep 10
+
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+
       - name: Run API tests
         run: |
-          postman collection run "30557681-cde623db-c0df-40f7-9faa-f8f82f299e8b"
+          postman collection run "30557681-cde623db-c0df-40f7-9faa-f8f82f299e8b" --env-var "baseUrl=http://localhost:5000"
