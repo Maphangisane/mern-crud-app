@@ -23,7 +23,7 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           npm run server &
-          sleep 20
+          sleep 10
 
       - name: Install Postman CLI
         run: |
@@ -34,4 +34,4 @@ jobs:
 
       - name: Run API tests
         run: |
-          postman collection run "30557681-cde623db-c0df-40f7-9faa-f8f82f299e8b" --env-var "baseUrl=http://localhost:5000/api"  -i "auth"
+          postman collection run "30557681-cde623db-c0df-40f7-9faa-f8f82f299e8b" --env-var "baseUrl=http://localhost:5000/api"
