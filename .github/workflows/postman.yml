@@ -19,6 +19,8 @@ jobs:
         run: npm install --production
 
       - name: Start Node server
+        env: 
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           npm run server &
           sleep 20
