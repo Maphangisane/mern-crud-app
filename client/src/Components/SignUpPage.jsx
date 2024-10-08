@@ -37,6 +37,7 @@ function SignUpPage() {
 				// { withCredentials: true }
 			);
 			console.log('User registered:', res.data);
+			window.location.href = '/signin';
 		} catch (err) {
 			console.error('Error:', err.response.data);
 		}
