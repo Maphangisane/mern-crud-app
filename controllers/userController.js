@@ -97,6 +97,7 @@ exports.deleteUser = async (req, res) => {
 
 		await User.deleteOne({ _id: req.params.id });
 		res.status(200).json({ message: 'User deleted successfully' });
+		// res.status(204).end(); // no content
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Server error: Failed to delete user' });
