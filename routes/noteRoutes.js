@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.post('/', authenticateJWT, createNote);
 router.get('/', authenticateJWT, getNotes);
-router.get('/note/:id', authenticateJWT, getNote);
-router.put('/note/:id', authenticateJWT, updateNote);
-router.delete('/note/:id', authenticateJWT, deleteNote);
+router.get('/:id', authenticateJWT, getNote);
+router.put('/:id', authenticateJWT, updateNote);
+router.delete('/:id', authenticateJWT, deleteNote);
 
 module.exports = router;
