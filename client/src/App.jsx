@@ -4,6 +4,8 @@ import Header from "./Components/Header";
 import SignInPage from './Components/SignInPage';
 import SignUpPage from './Components/SignUpPage';
 import HomePage from './Components/HomePage';
+import Footer from './Components/Footer';
+import PrivateRoutes from './Components/PrivateRoutes';
 
 function App() {
 
@@ -13,10 +15,22 @@ function App() {
 				<Header />
 
 				<Routes>
-					<Route path="/" element={<HomePage />} />
+					{/* Public routes */}
 					<Route path="/signin" element={<SignInPage />} />
 					<Route path="/signup" element={<SignUpPage />} />
+
+					{/* Protected routes*/}
+					<Route
+						path="/"
+						element={
+							<PrivateRoutes>
+								<HomePage />
+							</PrivateRoutes>
+						}
+					/>
 				</Routes>
+
+				<Footer />
 			</BrowserRouter>
 		</>
 	);
