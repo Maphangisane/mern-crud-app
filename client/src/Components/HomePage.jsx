@@ -5,11 +5,12 @@ import Notes from '../Components/Notes'
 
 function HomePage() {
 	// const navigate = useNavigate();
+	const userName = localStorage.getItem("userName");
 	return (
 		<div>
 			<Container>
 				<Typography variant="h4" gutterBottom style={{ marginTop: '20px' }}>
-					Welcome to MERN CRUD with Material-UI
+					Welcome {userName}
 					<Notes />
 				</Typography>
 

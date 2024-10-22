@@ -47,7 +47,7 @@ function SignInPage() {
 				}
 			})
 			// console.log(res.data);
-			const { access_token } = res.data;
+			const { access_token, name } = res.data;
 			// console.log(access_token);
 
 			if (access_token) {
@@ -55,6 +55,7 @@ function SignInPage() {
 				console.log('login successfully: Authorization set');
 
 				localStorage.setItem("authToken", access_token);
+				localStorage.setItem("userName", name);
 
 				// navigate('/'); // Redirect to home page
 				window.location.href = "/"
