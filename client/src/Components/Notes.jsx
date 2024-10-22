@@ -190,6 +190,9 @@ const Notes = () => {
 								<Typography variant="body2" color="textSecondary">
 									{note.content}
 								</Typography>
+								<Typography variant="caption" color="textSecondary" mt={1}>
+									Created on: {new Date(note.createdAt).toLocaleDateString()}
+								</Typography>
 								<Box mt={2}>
 									<IconButton
 										aria-label="edit"
