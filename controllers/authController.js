@@ -43,7 +43,8 @@ exports.login = async (req, res) => {
 				{ expiresIn: '1h' }
 			);
 
-			res.json({ access_token });
+			// res.json({ access_token });
+			res.status(200).json({ access_token, name: user.name });
 		} else {
 			res.status(401).json({ message: 'Invalid credentials' }); // json
 		}
