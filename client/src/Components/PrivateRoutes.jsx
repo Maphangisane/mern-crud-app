@@ -1,10 +1,12 @@
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { isLoggedIn } from '/src/utils/auth.js';
+import { AuthContext } from '../contexts/AuthContext';
 
 function PrivateRoutes({ children }) {
-	const authenticated = isLoggedIn();
+	const { isAuthenticated } = useContext(AuthContext);
+	console.log('loggedIn: ' + isAuthenticated);
 
-	if (!authenticated) {
+	if (!isAuthenticated) {
 		return <Navigate to="/signin" />;
 	}
 

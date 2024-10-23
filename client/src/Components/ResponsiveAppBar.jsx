@@ -1,26 +1,23 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import React, { useContext, useState } from 'react';
+import { AppBar, Box, Toolbar, TextField, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import { SearchContext } from '../contexts/SearchContext';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 // App bar with responsive menu
 function ResponsiveAppBar() {
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
+	const [anchorElNav, setAnchorElNav] = useState(null);
+	const [anchorElUser, setAnchorElUser] = useState(null);
+
+	const { search, setSearch } = useContext(SearchContext);
+	const { logout } = useContext(AuthContext);
+
+	const navigate = useNavigate();
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -38,8 +35,14 @@ function ResponsiveAppBar() {
 	};
 
 	const handleLogout = () => {
-		localStorage.removeItem('authToken');
-		window.location.href = '/signin';
+		logout();
+		// window.location.href = '/signin';
+		navigate('/signin');
+	};
+
+	// Handle search input change
+	const handleSearchChange = (event) => {
+		setSearch(event.target.value);
 	};
 
 	return (
@@ -118,7 +121,16 @@ function ResponsiveAppBar() {
 					>
 						LOGO
 					</Typography>
+
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+						<TextField
+							label="Search"
+							variant="outlined"
+							value={search}
+							onChange={handleSearchChange}
+							size="small"
+							sx={{ mr: 2, color: 'white' }}
+						/>
 						{pages.map((page) => (
 							<Button
 								key={page}
