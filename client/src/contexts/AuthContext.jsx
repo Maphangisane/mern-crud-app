@@ -4,9 +4,15 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-	const [authToken, setAuthToken] = useState(null);
-	const [userName, setUserName] = useState(null);
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+	const [userName, setUserName] = useState(localStorage.getItem('userName') || null);
+	const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
+
+	useEffect(() => {
+		if (authToken) {
+			axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+		}
+	}, [authToken]);
 
 	const login = async (username, password) => {
 		const requestBody = { username, password };
@@ -38,11 +44,12 @@ export function AuthProvider({ children }) {
 		localStorage.removeItem("authToken");
 		localStorage.removeItem("userName");
 		delete axios.defaults.headers.common['Authorization'];
+		window.location.href = '/signin';
 	};
 
 
 	return (
-		<AuthContext.Provider value={{ isAuthenticated, userName, login, logout }}>
+		<AuthContext.Provider value={{ isAuthenticated, userName, authToken, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
