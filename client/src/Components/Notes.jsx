@@ -117,7 +117,7 @@ const Notes = () => {
 		setContent(note.content);
 		setIsEditing(true);
 		setEditNoteId(note._id);
-		setShowForm(false);
+		setShowForm(true);
 	};
 
 	// Filter notes based on search query
