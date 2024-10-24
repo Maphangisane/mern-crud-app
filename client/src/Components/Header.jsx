@@ -1,19 +1,20 @@
-import React from 'react'
-import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
+import React, { useContext } from 'react';
+import { Toolbar, TextField, Typography, Button } from '@mui/material';
 import { isLoggedIn } from '/src/utils/auth.js';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import ResponsiveAppBarAuth from './ResponsiveAppBarAuth';
 import ThemeToggleButton from './ThemeToggleButton';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Header() {
-	// Get login status
-	const loggedIn = isLoggedIn();
-	console.log('loggedIn: ' + loggedIn);
+	// Get login status from the auth context
+	const { isAuthenticated } = useContext(AuthContext);
+	console.log('Header: Authenticated:', isAuthenticated);
 
 	return (
 		<div>
 			<Toolbar>
-				{loggedIn ? <ResponsiveAppBar /> : <ResponsiveAppBarAuth />}
+				{isAuthenticated ? <ResponsiveAppBar /> : <ResponsiveAppBarAuth />}
 				<ThemeToggleButton />
 			</Toolbar>
 
