@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import { SearchContext } from '../contexts/SearchContext';
+// import { SearchContext } from '../contexts/SearchContext';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -14,7 +14,7 @@ function ResponsiveAppBar() {
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
 
-	const { search, setSearch } = useContext(SearchContext);
+	// const { search, setSearch } = useContext(SearchContext);
 	const { logout } = useContext(AuthContext);
 
 	const navigate = useNavigate();
@@ -41,9 +41,9 @@ function ResponsiveAppBar() {
 	};
 
 	// Handle search input change
-	const handleSearchChange = (event) => {
-		setSearch(event.target.value);
-	};
+	// const handleSearchChange = (event) => {
+	// 	setSearch(event.target.value);
+	// };
 
 	return (
 		<AppBar position="static">
@@ -123,14 +123,14 @@ function ResponsiveAppBar() {
 					</Typography>
 
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						<TextField
+						{/* <TextField
 							label="Search"
 							variant="outlined"
 							value={search}
 							onChange={handleSearchChange}
 							size="small"
 							sx={{ mr: 2, color: 'white' }}
-						/>
+						/> */}
 						{pages.map((page) => (
 							<Button
 								key={page}

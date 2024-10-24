@@ -1,23 +1,13 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
+import { AppBar, TextField, Toolbar, Typography, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
 // const navItems = ['Home', 'About', 'Contact'];
 const authItems = ['SignIn', 'SignUp'];
+
 
 // App bar with responsive menu
 function ResponsiveAppBarAuth() {
@@ -46,6 +36,7 @@ function ResponsiveAppBarAuth() {
 							</Button>
 						))}
 					</Box>
+
 				</Toolbar>
 
 			</AppBar>
@@ -55,6 +46,7 @@ function ResponsiveAppBarAuth() {
 			{/* Main Content */}
 			<Box component="main" sx={{ p: 3 }}>
 				<Toolbar />
+
 				{/* <Typography>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
 					fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,
