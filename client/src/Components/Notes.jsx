@@ -15,8 +15,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '../contexts/ThemeContext';
 import { SearchContext } from '../contexts/SearchContext';
-import SearchBar from './SearchBar';
 import { AuthContext } from '../contexts/AuthContext';
+import SearchBar from './SearchBar';
+import { BASE_URL } from '../utils/constants';
 
 
 const Notes = () => {
@@ -31,13 +32,13 @@ const Notes = () => {
 	const { authToken } = useContext(AuthContext);
 	const { searchQuery } = useContext(SearchContext);
 
-	const apiUrl = 'http://localhost:5000/api/notes';
+	// const apiUrl = '${BASE_URL}/api/notes';
 	const token = authToken;
 
 	// Get all notes
 	const fetchNotes = async () => {
 		try {
-			const response = await axios.get(apiUrl, {
+			const response = await axios.get(`${BASE_URL}/api/notes`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -56,7 +57,7 @@ const Notes = () => {
 	const createNote = async () => {
 		try {
 			const response = await axios.post(
-				apiUrl,
+				`${BASE_URL}/api/notes`,
 				{ title, content },
 				{
 					headers: {
@@ -77,7 +78,7 @@ const Notes = () => {
 	const updateNote = async () => {
 		try {
 			const response = await axios.put(
-				`${apiUrl}/${editNoteId}`,
+				`${BASE_URL}/api/notes/${editNoteId}`,
 				{ title, content },
 				{
 					headers: {
@@ -100,7 +101,7 @@ const Notes = () => {
 	// delete note
 	const deleteNote = async (id) => {
 		try {
-			await axios.delete(`${apiUrl}/${id}`, {
+			await axios.delete(`${BASE_URL}/api/notes/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -121,10 +122,15 @@ const Notes = () => {
 	};
 
 	// Filter notes based on search query
-	const filteredNotes = notes.filter(note =>
-		note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-		note.content.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+	const filteredNotes = Array.isArray(notes)
+		? notes.filter(note => {
+			// Fallback to an empty string if title or content is null
+			const title = note.title?.toLowerCase() || '';
+			const content = note.content?.toLowerCase() || '';
+
+			return title.includes(searchQuery.toLowerCase()) || content.includes(searchQuery.toLowerCase());
+		})
+		: []; // Fallback to an empty array
 
 	return (
 		<Container maxWidth="sm">
