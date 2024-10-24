@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
 	Box,
@@ -13,6 +13,11 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTheme } from '../contexts/ThemeContext';
+import { SearchContext } from '../contexts/SearchContext';
+import SearchBar from './SearchBar';
+import { AuthContext } from '../contexts/AuthContext';
+
 
 const Notes = () => {
 	const [notes, setNotes] = useState([]);
@@ -22,8 +27,12 @@ const Notes = () => {
 	const [editNoteId, setEditNoteId] = useState(null);
 	const [showForm, setShowForm] = useState(false);
 
+	const { theme, toggleTheme } = useTheme();
+	const { authToken } = useContext(AuthContext);
+	const { searchQuery } = useContext(SearchContext);
+
 	const apiUrl = 'http://localhost:5000/api/notes';
-	const token = localStorage.getItem("authToken");
+	const token = authToken;
 
 	// Get all notes
 	const fetchNotes = async () => {
@@ -111,12 +120,21 @@ const Notes = () => {
 		setShowForm(false);
 	};
 
+	// Filter notes based on search query
+	const filteredNotes = notes.filter(note =>
+		note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+		note.content.toLowerCase().includes(searchQuery.toLowerCase())
+	);
+
 	return (
 		<Container maxWidth="sm">
 			<Box mt={5}>
-				<Typography variant="h4" gutterBottom>
+				<Typography variant="h4" gutterBottom style={{ color: theme.palette.text }}>
 					Notes
 				</Typography>
+
+				{/* Add the SearchBar component */}
+				<SearchBar />
 
 				{!showForm && (
 					<Button
@@ -182,11 +200,12 @@ const Notes = () => {
 			</Box>
 
 			<Grid container spacing={2} mt={4}>
-				{notes.map((note) => (
+				{filteredNotes.map((note) => (
+					// {notes.map((note) => (
 					<Grid item xs={12} key={note._id}>
-						<Card>
+						<Card style={{ background: theme.palette.background }}>
 							<CardContent>
-								<Typography variant="h5">{note.title}</Typography>
+								<Typography variant="h5" style={{ color: theme.palette.text }}>{note.title}</Typography>
 								<Typography variant="body2" color="textSecondary">
 									{note.content}
 								</Typography>
