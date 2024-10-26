@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { BASE_URL } from '../utils/constants';
 
 function SignUpPage() {
 	const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ function SignUpPage() {
 		}
 
 		try {
-			const res = await axios.post('http://localhost:5000/api/auth/register',
+			const res = await axios.post(`${BASE_URL}/api/auth/register`,
 				formData,
 			);
 			// Redirect to sign-in page after successful registration
